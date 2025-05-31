@@ -6,11 +6,11 @@
 }:
 stdenv.mkDerivation (final: {
   pname = "shen-scheme";
-  version = "0.39";
+  version = "0.40";
 
   src = builtins.fetchTarball {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${final.version}/shen-scheme-v${final.version}-src.tar.gz";
-    sha256 = "sha256:0lbjqvmlh649ajqm082jk7xs7fz87svc2nx28pln2nf8531w8imp";
+    sha256 = "sha256:1fn8i63xwj99l26dfr0d1flykci14d75c3ycsbppc6v6yih9agmw";
   };
 
   nativeBuildInputs = [ chez ];
