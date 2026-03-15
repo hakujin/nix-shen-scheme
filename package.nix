@@ -17,11 +17,11 @@ let custom-chez = chez.overrideAttrs (_: prev: {
 });
 in stdenv.mkDerivation (final: {
   pname = "shen-scheme";
-  version = "0.42";
+  version = "0.44";
 
   src = builtins.fetchTarball {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${final.version}/shen-scheme-v${final.version}-src.tar.gz";
-    sha256 = "sha256:1nk9fwm04v978s0sck9ym029vk7hl80wp6yi7imczzs7jjhl5sm0";
+    sha256 = "sha256:14fmb6jxjk8by9rg4acipxnbj8f0wafsqxkjgj0cnamk0w8fnb1h";
   };
 
   nativeBuildInputs = [ custom-chez lz4 zlib ];
