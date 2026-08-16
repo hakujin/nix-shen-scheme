@@ -1,5 +1,6 @@
 {
     chez,
+    fetchurl,
     lib,
     libuuid,
     lz4,
@@ -19,15 +20,23 @@ in stdenv.mkDerivation (final: {
   pname = "shen-scheme";
   version = "0.46";
 
-  src = builtins.fetchTarball {
+  src = fetchurl {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${final.version}/shen-scheme-v${final.version}-src.tar.gz";
-    sha256 = "sha256:1mfikhl03xmavwd2yqpskj7faz4lpg9kwkykr87m0870dn8g5ln6";
+    hash = "sha256-TwSbIFIzkceBeTmZoPmtBC6cbJE6JFlyiKiLIPpSovI=";
   };
 
-  nativeBuildInputs = [ custom-chez lz4 zlib ];
-  buildInputs = lib.optional stdenv.isLinux libuuid;
+  strictDeps = true;
+  enableParallelBuilding = true;
+
+  nativeBuildInputs = [
+    custom-chez
+  ];
+  buildInputs = [
+    lz4
+    zlib
+  ] ++ lib.optional stdenv.isLinux libuuid;
+
   dontStrip = true; # necessary to prevent runtime errors with chez
-  NIX_CFLAGS_COMPILE = "-O3";
 
   makeFlags = [
     "csbinpath=${custom-chez}/bin"
@@ -36,11 +45,22 @@ in stdenv.mkDerivation (final: {
     "csdir=${custom-chez}/lib/csv${custom-chez.version}"
     "cskernel="
     "csversion=${custom-chez.version}"
-    "lz4dirname="
     "prefix=$(out)"
     "psboot=$(csbootpath)$(S)petite.boot"
-    "zlibdirname="
+    "lz4="
+    "zlib="
+    "lz4dir=${lib.getLib lz4}/lib"
+    "zlibdir=${lib.getLib zlib}/lib"
   ];
+
+  doInstallCheck = true;
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    "$out/bin/shen-scheme" --version >/dev/null
+
+    runHook postInstallCheck
+  '';
 
   meta = {
     homepage = "https://github.com/tizoc/shen-scheme";
