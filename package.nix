@@ -18,15 +18,16 @@ let custom-chez = chez.overrideAttrs (_: prev: {
 });
 in stdenv.mkDerivation (final: {
   pname = "shen-scheme";
-  version = "0.46";
+  version = "0.46.1";
 
   src = fetchurl {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${final.version}/shen-scheme-v${final.version}-src.tar.gz";
-    hash = "sha256-TwSbIFIzkceBeTmZoPmtBC6cbJE6JFlyiKiLIPpSovI=";
+    hash = "sha256-HTMjubr/CTc2//xn/yBDf1Oj7jeLQ9M3V/XJvbLThAs=";
   };
 
   strictDeps = true;
   enableParallelBuilding = true;
+  dontStrip = true; # necessary to prevent runtime errors with chez
 
   nativeBuildInputs = [
     custom-chez
@@ -35,8 +36,6 @@ in stdenv.mkDerivation (final: {
     lz4
     zlib
   ] ++ lib.optional stdenv.isLinux libuuid;
-
-  dontStrip = true; # necessary to prevent runtime errors with chez
 
   makeFlags = [
     "csbinpath=${custom-chez}/bin"
