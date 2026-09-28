@@ -35,7 +35,7 @@ in stdenv.mkDerivation (final: {
   buildInputs = [
     lz4
     zlib
-  ] ++ lib.optional stdenv.isLinux libuuid;
+  ] ++ lib.optional stdenv.hostPlatform.isLinux libuuid;
 
   makeFlags = [
     "csbinpath=${custom-chez}/bin"
