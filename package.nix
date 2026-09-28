@@ -18,11 +18,11 @@ let custom-chez = chez.overrideAttrs (_: prev: {
 });
 in stdenv.mkDerivation (final: {
   pname = "shen-scheme";
-  version = "0.47";
+  version = "0.48";
 
   src = fetchurl {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${final.version}/shen-scheme-v${final.version}-src.tar.gz";
-    hash = "sha256-pRQeIOenhJFEnQ1/F0nn9XXaT/+yvzf2WJSZu1lhxzY=";
+    hash = "sha256-P29bfA+t0plNJIkIi/Wu2bXvdtZjiBkZ6xYKoJYcrZE=";
   };
 
   strictDeps = true;
