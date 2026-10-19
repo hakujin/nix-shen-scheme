@@ -19,11 +19,11 @@ let custom-chez = chez.overrideAttrs (_: prevAttrs: {
 });
 in stdenv.mkDerivation (finalAttrs: {
   pname = "shen-scheme";
-  version = "0.50";
+  version = "0.52";
 
   src = fetchurl {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${finalAttrs.version}/shen-scheme-v${finalAttrs.version}-src.tar.gz";
-    hash = "sha256-KVnulbS9g+AqiPEiDMSFf2bFWHpZKKvJ9+DRcTZHGYY=";
+    hash = "sha256-bz1L36hqFeeRYojzIOai+NFzm9xak79w04O57oPIaXQ=";
   };
 
   strictDeps = true;
@@ -44,7 +44,7 @@ in stdenv.mkDerivation (finalAttrs: {
     "csbinpath=${lib.getBin custom-chez}/bin"
     "csboot=$(csbootpath)$(S)scheme.boot"
     "csbootpath=$(csdir)$(S)$(m)"
-    "csdir=${custom-chez}/lib/csv${custom-chez.version}"
+    "csdir=${lib.getLib custom-chez}/lib/csv${custom-chez.version}"
     "cskernel="
     "csversion=${custom-chez.version}"
     "psboot=$(csbootpath)$(S)petite.boot"
