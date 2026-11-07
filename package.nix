@@ -19,16 +19,16 @@ let custom-chez = chez.overrideAttrs (_: prevAttrs: {
 });
 in stdenv.mkDerivation (finalAttrs: {
   pname = "shen-scheme";
-  version = "0.52";
+  version = "0.54";
 
   src = fetchurl {
     url = "https://github.com/tizoc/shen-scheme/releases/download/v${finalAttrs.version}/shen-scheme-v${finalAttrs.version}-src.tar.gz";
-    hash = "sha256-bz1L36hqFeeRYojzIOai+NFzm9xak79w04O57oPIaXQ=";
+    hash = "sha256-HeSgE2kOIExfPWGr1S+K3x7LLS6/pr/doYSzEv2b0Ac=";
   };
 
   strictDeps = true;
   enableParallelBuilding = true;
-  dontStrip = true; # necessary to prevent runtime errors with chez
+  stripDebugList = [ "bin" ]; # necessary to prevent runtime errors with chez
 
   nativeBuildInputs = [
     custom-chez
@@ -63,7 +63,7 @@ in stdenv.mkDerivation (finalAttrs: {
     runHook preInstallCheck
 
     result="$("$out/bin/shen-scheme" eval -e "(+ 1 2)")"
-    test "$result"="3"
+    test "$result" = "3"
 
     runHook postInstallCheck
   '';
